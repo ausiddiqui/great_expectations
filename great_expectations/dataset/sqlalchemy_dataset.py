@@ -751,11 +751,11 @@ class SqlAlchemyDataset(MetaSqlAlchemyDataset):
             )
         ).scalar()
 
-    def get_column_median(self, column):
+    def get_column_median(self, column, ignore_values=[None]):
         # AWS Athena does not support offset
         if self.sql_engine_dialect.name.lower() == "awsathena":
             raise NotImplementedError("AWS Athena does not support OFFSET.")
-        nonnull_count = self.get_column_nonnull_count(column)
+        nonnull_count = self.get_column_nonnull_count(column, ignore_values)
         element_values = self.engine.execute(
             sa.select([sa.column(column)])
             .order_by(sa.column(column))
