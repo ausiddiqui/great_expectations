@@ -658,8 +658,7 @@ class SqlAlchemyDataset(MetaSqlAlchemyDataset):
     def get_table_columns(self) -> List[str]:
         return [col["name"] for col in self.columns]
 
-    def get_column_nonnull_count(self, column):
-        ignore_values = [None]
+    def get_column_nonnull_count(self, column, ignore_values = [None]):
         count_query = sa.select(
             [
                 sa.func.count().label("element_count"),
